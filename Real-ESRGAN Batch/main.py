@@ -80,7 +80,7 @@ for mp4_file in mp4_files :
     print("Start converting Video")
     start = time.time()
     cmd = "python inference_realesrgan_video.py -i \"" + video_path \
-        + "\" -o \"" + os.path.join(output_path, mp4_file) + "\" -n " + model_name + " -s " + final_scale
+        + "\" -o \"" + os.path.join(output_path, mp4_file) + "\" -n " + model_name + " -s " + final_scale + " --face_enhance"
     print("CMD : ", cmd)
     result = os.system(cmd)
     result >> 8
