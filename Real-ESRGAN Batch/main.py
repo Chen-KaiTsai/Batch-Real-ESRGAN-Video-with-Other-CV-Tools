@@ -61,6 +61,12 @@ if float(final_scale) < 1 or float(final_scale) > 4 :
     print("error : scale is out of bound (1, 4)")
     exit()
 
+using_face_enhance = input("Using face enhance model? (y/n)")
+if using_face_enhance == "y" or "Y":
+    suffix_face_enhance = " --face_enhance"
+else:
+    suffix_face_enhance = ""
+
 fail_count = 0
 for mp4_file in mp4_files :
     video_path = os.path.join(input_path, mp4_file)
@@ -80,7 +86,7 @@ for mp4_file in mp4_files :
     print("Start converting Video")
     start = time.time()
     cmd = "python inference_realesrgan_video.py -i \"" + video_path \
-        + "\" -o \"" + os.path.join(output_path, mp4_file) + "\" -n " + model_name + " -s " + final_scale + " --face_enhance"
+        + "\" -o \"" + os.path.join(output_path, mp4_file) + "\" -n " + model_name + " -s " + final_scale + suffix_face_enhance
     print("CMD : ", cmd)
     result = os.system(cmd)
     result >> 8
