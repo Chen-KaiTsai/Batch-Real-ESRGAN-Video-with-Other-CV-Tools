@@ -62,7 +62,7 @@ if float(final_scale) < 1 or float(final_scale) > 4 :
     exit()
 
 using_face_enhance = input("Using face enhance model? (y/n)")
-if using_face_enhance == "y" or "Y":
+if using_face_enhance == "y" or using_face_enhance == "Y":
     suffix_face_enhance = " --face_enhance"
 else:
     suffix_face_enhance = ""
