@@ -17,22 +17,21 @@ filter_size = 3
 # Functions
 def unsharp_mask(image, size, strength):
 
-    uimage = cv2.UMat(image)
-
     # Median filtering
-    uimage_mf = median_filter(uimage, size)
+    image_mf = median_filter(image, size)
 
     # Calculate the Laplacian
-    ulap = cv2.Laplacian(uimage_mf,cv2.CV_64F)
+    lap = cv2.Laplacian(image_mf, cv2.CV_64F)
 
     # Calculate the sharpened image
-    usharped = uimage - strength * ulap
+
+    sharped = image - strength * lap
 
     # Saturate the pixels in either direction
-    usharped[usharped > 255] = 255
-    usharped[usharped < 0] = 0
+    sharped[sharped > 255] = 255
+    sharped[sharped < 0] = 0
     
-    sharped = cv2.UMat.get(usharped)
+    sharped = cv2.UMat.get(sharped)
 
     return sharped
 
