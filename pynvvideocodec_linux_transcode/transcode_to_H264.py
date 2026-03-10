@@ -5,6 +5,11 @@ import os
 # Configurations
 gpu_id = 0
 
+print("")
+print("-" * 64)
+print(nvc.GetEncoderCaps())
+print("-" * 64)
+
 print("Input top directory for both inputs and outputs")
 input_dir = input("input directory : ")
 
@@ -34,7 +39,7 @@ if not os.path.exists(output_path) :
 for mp4_file in mp4_files :
     file_input_path = os.path.join(input_path, mp4_file)
     file_output_path = os.path.join(output_path, mp4_file)
-    nv_dmx = nvc.CreateDemuxer(filename=file_input_path, gpuid=gpu_id)
+    nv_dmx = nvc.CreateDemuxer(filename=file_input_path)
 
     width = nv_dmx.Width()
     height = nv_dmx.Height()
@@ -42,14 +47,14 @@ for mp4_file in mp4_files :
 
     if width <= 4096 and height <= 4096 :
         print("Hardware Transcoding is allowed on " + mp4_file)
+        pynvml.nvidia_smi.nvmlInit()
         deviceCount = pynvml.nvidia_smi.nvmlDeviceGetCount()
         gpu_id = input("Choose GPU to Work on :")
-        if gpu_id >= deviceCount : 
+        if int(gpu_id) >= deviceCount : 
             print("GPU id out of bound.")
             exit()
-        nv_dec = nvc.CreateDecoder(codec=codec_from, usedevicememory=True)
 
-        print(nvc.GetEncoderCaps())
+        nv_dec = nvc.CreateDecoder(codec=codec_from, usedevicememory=True)
 
         nv_enc = nvc.CreateEncoder(width=width, height=height, fmt="YUV420", usecpuinputbuffer=True, codec_id="h264")
 
